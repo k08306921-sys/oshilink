@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OshiLink</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fff7fb;
+  color: #222;
+}
+
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #fff;
+  padding: 18px 16px 32px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  color: #e84f92;
+}
+
+.morning-btn {
+  width: auto;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: #fff0f6;
+  color: #e84f92;
+  border: 1px solid #f3bfd6;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #f1dfe8;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(233, 97, 150, 0.08);
+}
+
+.empty {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.empty-icon {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #fff0f6;
+  display: grid;
+  place-items: center;
+  color: #e84f92;
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.hero {
+  height: 34vh;
+  min-height: 245px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #ffe5f1, #fff7fb);
+  margin-bottom: 14px;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 76px;
+  font-weight: 900;
+  color: #e84f92;
+}
+
+.hero-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px;
+  background: linear-gradient(to top, rgba(0,0,0,.48), transparent);
+  color: white;
+}
+
+.hero-name {
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.hero-group {
+  font-size: 14px;
+  opacity: .9;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 2px 0 14px;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.check-btn {
+  border: 1px solid #f1dfe8;
+  background: #fff0f6;
+  color: #e84f92;
+  border-radius: 16px;
+  padding: 13px 4px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.check-btn .icon {
+  display: block;
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.check-btn.checked {
+  background: #f1f1f1;
+  color: #999;
+  border-color: #e1e1e1;
+}
+
+.oshi-list {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.mini {
+  min-width: 74px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.circle {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: #fff0f6;
+  color: #e84f92;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 28px;
+  border: 2px solid transparent;
+  overflow: hidden;
+}
+
+.circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini.active .circle {
+  border-color: #e84f92;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #e84f92, #ec5aa1);
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button.sub {
+  background: #fff;
+  color: #e84f92;
+  border: 1.5px solid #e84f92;
+}
+
+button.gray { background: #555; }
+button.delete { background: #d94b5c; }
+
+label {
+  display: block;
+  font-weight: 700;
+  margin: 14px 0 8px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1.5px solid #ead7e1;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.small {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.manual li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.hidden { display: none; }
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <section id="homeScreen">
+    <div class="top">
+      <div class="logo">OshiLink ♡</div>
+      <button class="morning-btn" onclick="playMorningMusic()">♪ モーニング音楽</button>
+    </div>
+
+    <div id="mainArea"></div>
+  </section>
+
+  <section id="formScreen" class="hidden">
+    <h2 id="formTitle">推しを登録</h2>
+
+    <div class="card">
+      <label>グループ名</label>
+      <input id="groupInput" placeholder="例）=LOVE">
+
+      <label>名前</label>
+      <input id="nameInput" placeholder="例）野口伊織">
+
+      <label>
+        <input id="favoriteInput" type="checkbox" style="width:auto;">
+        最推しにする
+      </label>
+
+      <label>画像を登録</label>
+      <input id="imageInput" type="file" accept="image/*">
+
+      <label>Instagram URL</label>
+      <input id="instagramInput" placeholder="https://www.instagram.com/...">
+
+      <label>X URL</label>
+      <input id="xInput" placeholder="https://x.com/...">
+
+      <label>TikTok URL</label>
+      <input id="tiktokInput" placeholder="https://www.tiktok.com/@...">
+
+      <label>YouTube URL</label>
+      <input id="youtubeInput" placeholder="https://www.youtube.com/...">
+
+      <label>モーニング音楽用 YouTube URL</label>
+      <textarea id="morningInput" placeholder="1行ずつ入力&#10;https://youtu.be/xxxxx&#10;https://www.youtube.com/watch?v=xxxxx"></textarea>
+
+      <p class="small">モーニング音楽は複数登録OK。ランダムで1つ開きます。</p>
+
+      <button onclick="saveOshi()">保存する</button>
+      <button class="sub" onclick="showHome()">戻る</button>
+    </div>
+  </section>
+
+  <section id="manualScreen" class="hidden">
+    <h2>OshiLink 使い方</h2>
+
+    <div class="card manual">
+      <ol>
+        <li>「推しを追加」から、グループ名・名前を登録します。</li>
+        <li>画像は任意です。登録するとホームに大きく表示されます。</li>
+        <li>Instagram / X / TikTok / YouTube のURLを登録できます。</li>
+        <li>「今日の推しチェック」から各SNSへ直接移動できます。</li>
+        <li>見たSNSはグレーになり、チェック済みになります。</li>
+        <li>チェック状態は毎日0時にリセットされます。</li>
+        <li>モーニング音楽は、登録したYouTube URLからランダムで開きます。</li>
+        <li>推しはあとから編集・削除できます。</li>
+      </ol>
+
+      <button onclick="showHome()">戻る</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+let oshis = JSON.parse(localStorage.getItem("oshilink_final")) || [];
+
+let currentIndex = getFavoriteIndex();
+let editingIndex = null;
+
+function todayKey() {
+  const d = new Date();
+  return `oshilink_checked_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
+}
+
+let checkedData = JSON.parse(localStorage.getItem(todayKey())) || {};
+
+function saveLocal() {
+  localStorage.setItem("oshilink_final", JSON.stringify(oshis));
+}
+
+function saveChecked() {
+  localStorage.setItem(todayKey(), JSON.stringify(checkedData));
+}
+
+function getFavoriteIndex() {
+  const index = oshis.findIndex(o => o.isFavorite);
+  return index >= 0 ? index : 0;
+}
+
+function normalizeUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return "https://" + url;
+}
+
+function showHome() {
+  document.getElementById("formScreen").classList.add("hidden");
+  document.getElementById("manualScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.remove("hidden");
+  render();
+}
+
+function showManual() {
+  document.getElementById("homeScreen").classList.add("hidden");
+  document.getElementById("formScreen").classList.add("hidden");
+  document.getElementById("manualScreen").classList.remove("hidden");
+}
+
+function showForm(index = null) {
+  editingIndex = index;
+
+  document.getElementById("homeScreen").classList.add("hidden");
+  document.getElementById("manualScreen").classList.add("hidden");
+  document.getElementById("formScreen").classList.remove("hidden");
+
+  document.getElementById("imageInput").value = "";
+
+  if (index !== null) {
+    const o = oshis[index];
+
+    document.getElementById("formTitle").textContent = "推しを編集";
+
+    document.getElementById("groupInput").value = o.group || "";
+    document.getElementById("nameInput").value = o.name || "";
+    document.getElementById("favoriteInput").checked = !!o.isFavorite;
+
+    document.getElementById("instagramInput").value = o.instagram || "";
+    document.getElementById("xInput").value = o.x || "";
+    document.getElementById("tiktokInput").value = o.tiktok || "";
+    document.getElementById("youtubeInput").value = o.youtube || "";
+
+    document.getElementById("morningInput").value =
+      (o.morningUrls || []).join("\n");
+
+  } else {
+
+    document.getElementById("formTitle").textContent = "推しを登録";
+
+    document.getElementById("groupInput").value = "";
+    document.getElementById("nameInput").value = "";
+
+    document.getElementById("favoriteInput").checked =
+      oshis.length === 0;
+
+    document.getElementById("instagramInput").value = "";
+    document.getElementById("xInput").value = "";
+    document.getElementById("tiktokInput").value = "";
+    document.getElementById("youtubeInput").value = "";
+    document.getElementById("morningInput").value = "";
+  }
+}
+
+function saveOshi() {
+
+  const group = document.getElementById("groupInput").value.trim();
+  const name = document.getElementById("nameInput").value.trim();
+
+  if (!name) {
+    alert("名前は入れてね");
+    return;
+  }
+
+  const file = document.getElementById("imageInput").files[0];
+
+  const finishSave = (imageData = null) => {
+
+    let isFavorite =
+      document.getElementById("favoriteInput").checked;
+
+    if (oshis.length === 0) {
+      isFavorite = true;
+    }
+
+    if (isFavorite) {
+      oshis = oshis.map(o => ({
+        ...o,
+        isFavorite: false
+      }));
+    }
+
+    const oldImage =
+      editingIndex !== null
+        ? oshis[editingIndex].image
+        : "";
+
+    const data = {
+      group,
+      name,
+      isFavorite,
+      image: imageData || oldImage || "",
+
+      instagram: normalizeUrl(
+        document.getElementById("instagramInput").value.trim()
+      ),
+
+      x: normalizeUrl(
+        document.getElementById("xInput").value.trim()
+      ),
+
+      tiktok: normalizeUrl(
+        document.getElementById("tiktokInput").value.trim()
+      ),
+
+      youtube: normalizeUrl(
+        document.getElementById("youtubeInput").value.trim()
+      ),
+
+      morningUrls:
+        document.getElementById("morningInput")
+          .value
+          .split("\n")
+          .map(v => normalizeUrl(v.trim()))
+          .filter(Boolean)
+    };
+
+    if (editingIndex !== null) {
+      oshis[editingIndex] = data;
+      currentIndex = editingIndex;
+    } else {
+      oshis.push(data);
+      currentIndex = oshis.length - 1;
+    }
+
+    saveLocal();
+    showHome();
+  };
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = e => finishSave(e.target.result);
+
+    reader.readAsDataURL(file);
+
+  } else {
+    finishSave();
+  }
+}
+
+function render() {
+
+  const main = document.getElementById("mainArea");
+
+  if (oshis.length === 0) {
+
+    main.innerHTML = `
+      <div class="empty">
+        <div>
+          <div class="empty-icon">♡</div>
+
+          <h2>まだ推しが登録されていません</h2>
+
+          <p class="small">
+            まずは推しを追加して、<br>
+            今日の推しチェックを作ろう。
+          </p>
+
+          <button onclick="showForm()">
+            ＋ 推しを追加する
+          </button>
+
+          <button class="sub" onclick="showManual()">
+            使い方を見る
+          </button>
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  const oshi = oshis[currentIndex];
+
+  main.innerHTML = `
+    <div class="hero">
+
+      ${
+        oshi.image
+          ? `<img src="${oshi.image}">`
+          : `<div class="hero-placeholder">${oshi.name.charAt(0)}</div>`
+      }
+
+      <div class="hero-info">
+        <div class="hero-name">${oshi.name}</div>
+        <div class="hero-group">
+          ${oshi.group || "グループ未登録"}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h2>今日の推しチェック</h2>
+
+      <div class="check-grid" id="checkGrid"></div>
+
+      <p class="small">
+        見たSNSはグレーになります。毎日0時にリセットされます。
+      </p>
+    </div>
+
+    <div class="card">
+
+      <h2>推し一覧</h2>
+
+      <div class="oshi-list" id="oshiList"></div>
+
+      <button class="sub" onclick="showForm()">
+        ＋ 推しを追加
+      </button>
+
+    </div>
+
+    <div class="card">
+      <div class="actions">
+
+        <button class="gray"
+          onclick="showForm(currentIndex)">
+          編集
+        </button>
+
+        <button class="delete"
+          onclick="deleteOshi(currentIndex)">
+          削除
+        </button>
+
+      </div>
+
+      <button class="sub" onclick="showManual()">
+        使い方を見る
+      </button>
+
+    </div>
+  `;
+
+  renderChecks(oshi);
+  renderOshiList();
+}
+
+function renderChecks(oshi) {
+
+  const key = oshi.name;
+
+  if (!checkedData[key]) {
+    checkedData[key] = {};
+  }
+
+  const items = [
+    {
+      id: "instagram",
+      label: "Instagram",
+      icon: "📷",
+      url: oshi.instagram
+    },
+    {
+      id: "x",
+      label: "X",
+      icon: "𝕏",
+      url: oshi.x
+    },
+    {
+      id: "tiktok",
+      label: "TikTok",
+      icon: "♪",
+      url: oshi.tiktok
+    },
+    {
+      id: "youtube",
+      label: "YouTube",
+      icon: "▶️",
+      url: oshi.youtube
+    }
+  ];
+
+  document.getElementById("checkGrid").innerHTML =
+    items.map(item => {
+
+      const checked = checkedData[key][item.id];
+
+      return `
+        <div class="check-btn ${checked ? "checked" : ""}"
+          onclick="openSns('${key}','${item.id}','${item.url || ""}')">
+
+          <span class="icon">
+            ${checked ? "✓" : item.icon}
+          </span>
+
+          ${item.label}
+        </div>
+      `;
+    }).join("");
+}
+
+function openSns(name, sns, url) {
+
+  checkedData[name] = checkedData[name] || {};
+  checkedData[name][sns] = true;
+
+  saveChecked();
+  render();
+
+  if (url) {
+    window.location.href = url;
+  } else {
+    alert("URLがまだ登録されていません");
+  }
+}
+
+function renderOshiList() {
+
+  const list = document.getElementById("oshiList");
+
+  list.innerHTML = "";
+
+  oshis.forEach((o, index) => {
+
+    const item = document.createElement("div");
+
+    item.className =
+      "mini" + (index === currentIndex ? " active" : "");
+
+    item.onclick = () => {
+      currentIndex = index;
+      render();
+    };
+
+    item.innerHTML = `
+      <div class="circle">
+        ${
+          o.image
+            ? `<img src="${o.image}">`
+            : o.name.charAt(0)
+        }
+      </div>
+
+      <strong>${o.name}</strong><br>
+
+      <span style="color:#777;">
+        ${o.group || ""}
+      </span>
+    `;
+
+    list.appendChild(item);
+  });
+}
+
+function playMorningMusic() {
+
+  if (oshis.length === 0) {
+    alert("まずは推しを登録してね");
+    return;
+  }
+
+  const favorite =
+    oshis.find(o => o.isFavorite)
+    || oshis[currentIndex];
+
+  const urls = favorite.morningUrls || [];
+
+  if (urls.length === 0) {
+    alert("モーニング音楽URLが登録されていません");
+    return;
+  }
+
+  const randomUrl =
+    urls[Math.floor(Math.random() * urls.length)];
+
+  window.location.href = randomUrl;
+}
+
+function deleteOshi(index) {
+
+  if (!confirm(`${oshis[index].name} を削除しますか？`)) {
+    return;
+  }
+
+  oshis.splice(index, 1);
+
+  if (
+    oshis.length > 0
+    && !oshis.some(o => o.isFavorite)
+  ) {
+    oshis[0].isFavorite = true;
+  }
+
+  currentIndex =
+    Math.max(0,
+      Math.min(currentIndex, oshis.length - 1)
+    );
+
+  saveLocal();
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
